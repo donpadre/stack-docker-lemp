@@ -1,0 +1,2 @@
+192.168.1.82 - - [05/May/2018:21:33:22 +0000] "GET /robots.txt HTTP/1.1" 404 572 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+192.168.1.82 - - [05/May/2018:21:33:22 +0000] "GET / HTTP/1.1" 200 87456 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"

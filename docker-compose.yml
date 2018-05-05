@@ -1,0 +1,66 @@
+version: "2"
+
+services:
+  web:
+    container_name: lemp_nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always 
+    volumes:
+      - ./www:/var/www/html:ro
+      - ./config/nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf:ro
+      - ./config/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./log/nginx:/var/log/nginx
+    links: 
+      - php
+    networks:
+      - code-network
+
+  php:
+    container_name: lemp_php
+    image: php:7.2-fpm
+    volumes: 
+      - ./www/:/var/www/html
+    depends_on:
+      - db
+    links: 
+      - db
+    environment:
+      - DB_NAME=symfony
+      - TABLE_PREFIX=lemp_
+      - DB_HOST=root
+      - DB_PASSWORD=root
+    networks:
+      - code-network
+
+  db:
+    container_name: lemp_mariadb
+    image: mariadb:latest
+    ports: 
+      - "3306:3306"
+    volumes: 
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - code-network
+
+  mail:
+    container_name: lemp_maildev
+    image: djfarrelly/maildev
+    restart: always
+    ports:
+      - "1080:80"
+      - "1025:25"
+    networks:
+      - code-network
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+    code-network:
+        driver: bridge
